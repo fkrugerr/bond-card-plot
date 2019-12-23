@@ -23,7 +23,7 @@ function BondCard(props) {
     getBond();
   }, [getBond]);
 
-  const [outPutData, setOutputData] = useState([]);
+  const [outputData, setOutputData] = useState([]);
 
   useEffect(() => {
     setOutputData(
@@ -52,7 +52,7 @@ function BondCard(props) {
       />
       <div className="my-4 position-relative plot-holder">
         <Plot
-          data={outPutData}
+          data={outputData}
           xDataKey="date"
           dataKey={selectedViewType}
         />
