@@ -1,42 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { prop } from 'ramda';
+import { isEmpty, complement } from 'ramda';
 
 import { periods, viewTypes } from '../constants/plotParams';
-import { changePeriod, changeViewType } from '../actions';
+import { changePeriod, changeViewType, fetchBond } from '../actions';
 
 import Switcher from './Switcher';
 import Selector from './Selector';
 import Plot from './Plot';
-
-import { bondData } from '../helpers/generator';
 import { getOutputData } from '../helpers/formatters';
+
+const notEmpty = complement(isEmpty);
 
 function BondCard(props) {
   const {
-    title, selectedPeriod, selectedViewType, onChangeViewType,
-    onChangePeriod, bond,
+    selectedPeriod, selectedViewType, onChangeViewType,
+    onChangePeriod, bond, getBond,
   } = props;
+
+  useEffect(() => {
+    getBond();
+  }, [getBond]);
 
   const [outPutData, setOutputData] = useState([]);
 
   useEffect(() => {
     setOutputData(
-      bond && prop('data', bond) ? getOutputData(selectedPeriod, bond.data) : []
+      bond.data && notEmpty(bond.data) ? getOutputData(selectedPeriod, bond.data) : []
     );
   }, [selectedPeriod, bond]);
 
-  return bond && (
+  const { title, currentPrice, code, emitent, till } = bond;
+
+  return notEmpty(bond) && (
     <div>
       <h2 className="text-uppercase">
-        {title}
+        {`${title} ${currentPrice}`}
         <span className="small text-muted ml-3">USD</span>
       </h2>
       <p>
-        YUHGFRT567
+        {code}
         <br />
-        {`${title}, Telecommnications till 01.0402016`}
+        {`${emitent}, till ${till}`}
       </p>
       <hr />
       <Switcher
@@ -63,28 +69,23 @@ function BondCard(props) {
 }
 
 BondCard.propTypes = {
-  title: PropTypes.string.isRequired,
   selectedPeriod: PropTypes.string.isRequired,
   selectedViewType: PropTypes.string.isRequired,
   onChangePeriod: PropTypes.func.isRequired,
   onChangeViewType: PropTypes.func.isRequired,
-  bond: PropTypes.object,
-};
-
-BondCard.defaultProps = {
-  title: 'NII Capital 7.625 21',
-  bond: {
-    data: bondData,
-  },
+  getBond: PropTypes.func.isRequired,
+  bond: PropTypes.object.isRequired,
 };
 
 export default connect(
   state => ({
     selectedPeriod: state.period,
     selectedViewType: state.viewType,
+    bond: state.bond || {},
   }),
   dispatch => ({
     onChangePeriod: value => dispatch(changePeriod(value)),
     onChangeViewType: value => dispatch(changeViewType(value)),
+    getBond: () => dispatch(fetchBond()),
   }),
 )(BondCard);

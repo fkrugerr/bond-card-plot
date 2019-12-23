@@ -3,21 +3,6 @@ import { filter } from 'ramda';
 
 export const formatTick = val => moment(val * 1000).format('DD.MM.YY');
 
-export const getLimit = (period) => {
-  switch (period) {
-    case 'weak':
-      return moment().subtract(1, 'w').unix();
-    case 'month':
-      return moment().subtract(1, 'month').unix();
-    case 'quater':
-      return moment().subtract(3, 'month').unix();
-    case 'year':
-      return moment().subtract(1, 'year').unix();
-    default:
-      return 'dataMin';
-  }
-};
-
 export const getOutputData = (period, data) => {
   let limit = 0;
   switch (period) {
