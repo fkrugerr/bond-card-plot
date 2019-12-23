@@ -8,7 +8,7 @@ function App() {
     <div className="container">
       <div className="row">
         <div className="col-lg-8 col-md-10 mx-auto py-4">
-          <BondCard />
+          <BondCard isin="XS0971721963" />
         </div>
       </div>
     </div>

@@ -16,12 +16,12 @@ const notEmpty = complement(isEmpty);
 function BondCard(props) {
   const {
     selectedPeriod, selectedViewType, onChangeViewType,
-    onChangePeriod, bond, getBond,
+    onChangePeriod, bond, getBond, isin,
   } = props;
 
   useEffect(() => {
-    getBond();
-  }, [getBond]);
+    getBond(isin);
+  }, [getBond, isin]);
 
   const [outputData, setOutputData] = useState([]);
 
@@ -75,6 +75,7 @@ BondCard.propTypes = {
   onChangeViewType: PropTypes.func.isRequired,
   getBond: PropTypes.func.isRequired,
   bond: PropTypes.object.isRequired,
+  isin: PropTypes.string.isRequired,
 };
 
 export default connect(
