@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { filter } from 'ramda';
 
-export const formatTick = val => moment(val * 1000).format('DD.MM.YY');
+export const formatDate = val => moment(val * 1000).format('DD.MM.YY');
 
 export const getOutputData = (period, data) => {
   let limit = 0;
