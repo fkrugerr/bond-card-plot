@@ -7,7 +7,7 @@ import { isEmpty } from 'ramda';
 import { formatDate } from '../helpers/formatters';
 
 function Plot(props) {
-  const { data, dataKey, xAxisDataKey } = props;
+  const { data, yDataKey, xDataKey } = props;
   return isEmpty(data)
     ? (
       <div>No data!</div>
@@ -16,7 +16,7 @@ function Plot(props) {
         <LineChart data={data}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
           <XAxis
-            dataKey={xAxisDataKey}
+            dataKey={xDataKey}
             interval="preserveEnd"
             minTickGap={24}
             tickFormatter={formatDate}
@@ -27,7 +27,7 @@ function Plot(props) {
             formatter={val => `$${val}`}
             labelFormatter={formatDate}
           />
-          <Line type="monotone" dataKey={dataKey} stroke="#82ca9d" />
+          <Line type="monotone" dataKey={yDataKey} stroke="#82ca9d" />
         </LineChart>
       </ResponsiveContainer>
     );
@@ -35,8 +35,8 @@ function Plot(props) {
 
 Plot.propTypes = {
   data: PropTypes.array.isRequired,
-  dataKey: PropTypes.string.isRequired,
-  xAxisDataKey: PropTypes.string.isRequired,
+  yDataKey: PropTypes.string.isRequired,
+  xDataKey: PropTypes.string.isRequired,
 };
 
 export default Plot;

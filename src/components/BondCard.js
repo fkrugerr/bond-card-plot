@@ -53,8 +53,8 @@ function BondCard(props) {
       <div className="my-4 position-relative plot-holder">
         <Plot
           data={outputData}
-          xAxisDataKey="date"
-          dataKey={selectedViewType}
+          xDataKey="date"
+          yDataKey={selectedViewType}
         />
         <div className="position-absolute selector-holder">
           <Selector
